@@ -62,4 +62,27 @@ require("lspconfig").lua_ls.setup {
 }
 
 require('lspconfig').tailwindcss.setup{}
+require('lspconfig').pyright.setup{}
+require('lspconfig').pylsp.setup {
+  settings = {
+    pylsp = {
+      plugins = {
+        -- Formatter options
+        black = { enabled = true },
+        autopep8 = { enabled = false },
+        yapf = { enabled = false },
+        -- Linter options
+        pylint = { enabled = true, executable = "pylint" },
+        pyflakes = { enabled = false },
+        pycodestyle = { enabled = false },
+        -- Type checker
+        pylsp_mypy = { enabled = true },
+        -- Auto-completion options
+        jedi_completion = { fuzzy = true },
+        -- Import sorting
+        pyls_isort = { enabled = true },
+      }
+    }
+  }
+}
 return M
