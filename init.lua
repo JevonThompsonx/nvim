@@ -15,7 +15,10 @@ if not vim.loop.fs_stat(lazypath) then
   require("core.bootstrap").gen_chadrc_template()
   require("core.bootstrap").lazy(lazypath)
 end
+-- set ejs files to html 
 vim.cmd('autocmd BufNewFile,BufRead *.ejs set filetype=html')
+-- Show diagnostics automatically when hovering over a symbol
+vim.cmd [[autocmd CursorHold * lua vim.diagnostic.open_float(nil, { focusable = false })]]
 dofile(vim.g.base46_cache .. "defaults")
 vim.opt.rtp:prepend(lazypath)
 require "plugins"

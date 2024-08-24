@@ -85,4 +85,5 @@ require('lspconfig').pylsp.setup {
     }
   }
 }
+require('lspconfig').rust_analyzer.setup{}
 return M

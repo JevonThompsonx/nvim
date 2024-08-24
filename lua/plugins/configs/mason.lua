@@ -1,5 +1,5 @@
 local options = {
-  ensure_installed = { "lua-language-server", "autopep8", "biome", "black", "emmet-ls", "eslint-lsp", "eslintd", "flake8", "isort", "jedi-language-server", "js-debug-adapter", "mypy", "prettier", "prettierd", "pyflakes", "pylint", "pyright", "python-lsp-server", "typescript-language-server", "yapf" }, -- not an option from mason.nvim
+  ensure_installed = { "lua-language-server", "autopep8", "biome", "black", "emmet-ls", "eslint-lsp", "eslintd", "flake8", "isort", "jedi-language-server", "js-debug-adapter", "mypy", "prettier", "prettierd", "pyflakes", "pylint", "pyright", "python-lsp-server", "typescript-language-server", "yapf", "rust_analyzer"}, -- not an option from mason.nvim
 
   PATH = "skip",
 
