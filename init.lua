@@ -21,4 +21,5 @@ vim.cmd('autocmd BufNewFile,BufRead *.ejs set filetype=html')
 vim.cmd [[autocmd CursorHold * lua vim.diagnostic.open_float(nil, { focusable = false })]]
 dofile(vim.g.base46_cache .. "defaults")
 vim.opt.rtp:prepend(lazypath)
+vim.opt.shell = "/usr/bin/fish"
 require "plugins"
