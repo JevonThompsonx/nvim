@@ -1,5 +1,5 @@
 local options = {
-  ensure_installed = {"rust", "python", "javascript", "typescript"
+  ensure_installed = {"rust", "python", "javascript", "typescript", "css"
 }
 }
 
