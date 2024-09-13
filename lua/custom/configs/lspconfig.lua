@@ -3,7 +3,9 @@ local capabilities = require("plugins.configs.lspconfig").capabilities
 local lspconfig = require("lspconfig")
 local util = require("lspconfig/util")
 
-local servers = {"html", "cssls", "clangd", "pyright", "typescript"}
+local servers = {"html", "cssls", "clangd", "pyright"}
+
+lspconfig.tsserver.setup{}
 
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
@@ -48,7 +50,7 @@ lspconfig.rust_analyzer.setup({
 })
 
 lspconfig.tailwindcss.setup {
-  filetypes = { "html","ejs", "css", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact", "vue"},
+  filetypes = { "html","ejs", "javascript", "javascriptreact", "typescript", "typescriptreact", "vue"},
   root_dir = lspconfig.util.root_pattern("tailwind.config.js", "package.json"),
 }
 
