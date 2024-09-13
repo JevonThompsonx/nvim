@@ -49,7 +49,18 @@ local plugins = {
       require("plugins.configs.treesitter")
       require("custom.configs.treesitter")
     end
-  }
+  },
+  --Vue lsp and syntax
+   { "leafOfTree/vim-vue-plugin" }, -- Vue filetype plugin
+  { "L3MON4D3/LuaSnip" }, -- Snippets
+  { "rafamadriz/friendly-snippets" }, -- Collection of snippets
+
+   -- TypeScript/React LSP and Syntax Highlighting
+  { "jose-elias-alvarez/typescript.nvim" }, -- TypeScript LSP
+  { "maxmellon/vim-jsx-pretty" }, -- JSX syntax highlighting
+
+  -- Optional: Prettier and ESLint
+  { "jose-elias-alvarez/null-ls.nvim" }, -- Linter and formatter
 }
 
 return plugins

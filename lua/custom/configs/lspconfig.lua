@@ -3,7 +3,7 @@ local capabilities = require("plugins.configs.lspconfig").capabilities
 local lspconfig = require("lspconfig")
 local util = require("lspconfig/util")
 
-local servers = { "html", "cssls", "clangd", "pyright"}
+local servers = {"html", "cssls", "clangd", "pyright", "typescript"}
 
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
@@ -51,3 +51,13 @@ lspconfig.tailwindcss.setup {
   filetypes = { "html","ejs", "css", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact", "vue"},
   root_dir = lspconfig.util.root_pattern("tailwind.config.js", "package.json"),
 }
+
+-- Vue Language Server (Volar)
+lspconfig.volar.setup({
+  filetypes = { "vue" }, -- Ensure it's targeting .vue files
+})
+
+-- Optional: Set up Emmet for HTML autocompletion within .vue files
+lspconfig.emmet_ls.setup({
+  filetypes = { "html", "css", "vue" }, -- Enable Emmet for HTML and Vue files
+})
