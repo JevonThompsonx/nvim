@@ -8,6 +8,7 @@ local plugins = {
       }
     }
   },
+  "roobert/tailwindcss-colorizer-cmp.nvim",
   --lspconfig points to configs.lspconfig
   {
   "neovim/nvim-lspconfig",

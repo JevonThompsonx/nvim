@@ -50,8 +50,6 @@ lspconfig.rust_analyzer.setup({
 })
 
 lspconfig.tailwindcss.setup {
-  filetypes = { "html","ejs", "javascript", "javascriptreact", "typescript", "typescriptreact", "vue"},
-  root_dir = lspconfig.util.root_pattern("tailwind.config.js", "package.json"),
 }
 
 -- Vue Language Server (Volar)
@@ -61,5 +59,5 @@ lspconfig.volar.setup({
 
 -- Optional: Set up Emmet for HTML autocompletion within .vue files
 lspconfig.emmet_ls.setup({
-  filetypes = { "html", "css", "vue" }, -- Enable Emmet for HTML and Vue files
+  filetypes = { "html", "css", "vue", "typescriptreact", "javascriptreact"}, -- Enable Emmet for HTML and Vue files
 })
