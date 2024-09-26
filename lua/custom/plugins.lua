@@ -4,7 +4,7 @@ local plugins = {
     "williamboman/mason.nvim",
   opts = {
       ensure_installed = {
-      "autopep8", "biome", "black", "emmet-ls", "eslint-lsp", "eslint_d", "flake8", "isort", "jedi-language-server", "js-debug-adapter", "mypy", "prettier", "prettierd", "pyflakes", "pylint", "pyright", "python-lsp-server", "typescript-language-server", "yapf", "rust-analyzer", "tailwindcss-language-server","css", "html-lsp"
+      "autopep8", "biome", "black", "emmet-ls", "eslint-lsp", "eslint_d", "flake8", "isort", "jedi-language-server", "js-debug-adapter", "mypy", "prettier", "prettierd", "pyflakes", "pylint", "pyright", "python-lsp-server", "typescript-language-server", "yapf", "rust-analyzer", "tailwindcss-language-server", "html-lsp", "css-lsp"
       }
     }
   },
