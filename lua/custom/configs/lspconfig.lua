@@ -5,7 +5,7 @@ local util = require("lspconfig/util")
 
 local servers = {"html", "cssls", "clangd", "pyright"}
 
-lspconfig.tsserver.setup{}
+lspconfig.ts_ls.setup{}
 
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
