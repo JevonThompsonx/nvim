@@ -5,7 +5,25 @@ local util = require("lspconfig/util")
 
 local servers = {"html", "cssls", "clangd", "pyright"}
 
-lspconfig.ts_ls.setup{}
+lspconfig.tsserver.setup {
+  cmd = { "typescript-language-server", "--stdio" },  -- Command to start ts_ls
+  filetypes = { "typescript", "typescriptreact", "typescript.tsx" },  -- Filetypes it will attach to
+  root_dir = lspconfig.util.root_pattern("package.json", "tsconfig.json", ".git"),
+  settings = {
+    typescript = {
+      format = {
+        insertSpaceAfterCommaDelimiter = true,
+        insertSpaceAfterSemicolonInForStatements = true,
+      }
+    },
+    javascript = {
+      format = {
+        insertSpaceAfterCommaDelimiter = true,
+        insertSpaceAfterSemicolonInForStatements = true,
+      }
+    }
+  }
+}
 
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
