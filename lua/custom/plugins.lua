@@ -62,35 +62,6 @@ local plugins = {
 
   -- Optional: Prettier and ESLint
   { "jose-elias-alvarez/null-ls.nvim" }, -- Linter and formatter
-
-  -- Add nvdash plugin here
-  {
-    "NvChad/nvdash",
-    config = function()
-      require("nvdash").setup({
-        load_on_startup = true,
-        header = {
-          "           ▄ ▄                   ",
-          "       ▄   ▄▄▄     ▄ ▄▄▄ ▄ ▄     ",
-          "       █ ▄ █▄█ ▄▄▄ █ █▄█ █ █     ",
-          "    ▄▄ █▄█▄▄▄█ █▄█▄█▄▄█▄▄█ █     ",
-          "  ▄ █▄▄█ ▄ ▄▄ ▄█ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄  ",
-          "  █▄▄▄▄ ▄▄▄ █ ▄ ▄▄▄ ▄ ▄▄▄ ▄ ▄ █ ▄",
-          "▄ █ █▄█ █▄█ █ █ █▄█ █ █▄█ ▄▄▄ █ █",
-          "█▄█ ▄ █▄▄█▄▄█ █ ▄▄█ █ ▄ █ █▄█▄█ █",
-          "    █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█ █▄█▄▄▄█    ",
-        },
-        buttons = {
-          { "  Find File", "Spc f f", "Telescope find_files" },
-          { "󰈚  Recent Files", "Spc f o", "Telescope oldfiles" },
-          { "󰈭  Find Word", "Spc f w", "Telescope live_grep" },
-          { "  Bookmarks", "Spc m a", "Telescope marks" },
-          { "  Themes", "Spc t h", "Telescope themes" },
-          { "  Mappings", "Spc c h", "NvCheatsheet" },
-        },
-      })
-    end
-  }
 }
 
 return plugins
