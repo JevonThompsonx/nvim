@@ -4,11 +4,11 @@ null_ls.setup({
   sources = {
     -- Formatting with Biome for React (JSX/TSX) and Vue files
     null_ls.builtins.formatting.biome.with({
-      filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact", "vue" }, -- Add Vue and React file types
+      filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact", "vue", "css" },
     }),
     -- Linting with Biome for React (JSX/TSX) and Vue files
     null_ls.builtins.diagnostics.biome.with({
-      filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact", "vue" },
+      filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact", "vue", "css" },
     }),
   },
 })
