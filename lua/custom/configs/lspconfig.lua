@@ -3,12 +3,22 @@ local capabilities = require("plugins.configs.lspconfig").capabilities
 local lspconfig = require("lspconfig")
 local util = require("lspconfig/util")
 
-local servers = {"html", "cssls", "clangd", "pyright"}
+-- Enable snippet support for autocompletion
+capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-lspconfig.tsserver.setup {
-  cmd = { "typescript-language-server", "--stdio" },  -- Command to start ts_ls
-  filetypes = { "typescript", "typescriptreact", "typescript.tsx" },  -- Filetypes it will attach to
-  root_dir = lspconfig.util.root_pattern("package.json", "tsconfig.json", ".git"),
+-- Common servers
+local servers = {"html", "cssls", "clangd"}
+
+for _, lsp in ipairs(servers) do
+  lspconfig[lsp].setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+  }
+end
+
+-- TypeScript
+lspconfig.ts_ls.setup {
+  root_dir = util.root_pattern("package.json", "tsconfig.json", ".git"),
   settings = {
     typescript = {
       format = {
@@ -25,57 +35,64 @@ lspconfig.tsserver.setup {
   }
 }
 
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-  }
-end
-lspconfig.pylsp.setup {
+-- Python (pyright example)
+lspconfig.pyright.setup {
   settings = {
-    pylsp = {
-      plugins = {
-        -- Formatter options
-        black = { enabled = true },
-        autopep8 = { enabled = false },
-        yapf = { enabled = false },
-        -- Linter options
-        pylint = { enabled = true, executable = "pylint" },
-        pyflakes = { enabled = false },
-        pycodestyle = { enabled = false },
-        -- Type checker
-        pylsp_mypy = { enabled = true },
-        -- Auto-completion options
-        jedi_completion = { fuzzy = true },
-        -- Import sorting
-        pyls_isort = { enabled = true },
+    python = {
+      analysis = {
+        typeCheckingMode = "basic",
+        autoSearchPaths = true,
+        useLibraryCodeForTypes = true
       }
     }
   }
 }
+
+-- Rust
 lspconfig.rust_analyzer.setup({
   on_attach = on_attach,
   capabilities = capabilities,
-  filetypes = {"rust"},
   root_dir = util.root_pattern("Cargo.toml"),
   settings = {
     ["rust-analyzer"] = {
-      cargo = {
-        allFeatures = true,
-      },
+      cargo = { allFeatures = true },
+      checkOnSave = {
+        command = "clippy",
+        extraArgs = { "--no-deps" }
+      }
     },
   },
 })
 
+-- TailwindCSS
 lspconfig.tailwindcss.setup {
+  filetypes = {
+    "html", "css", "javascript", "typescript",
+    "javascriptreact", "typescriptreact", "vue"
+  },
+  init_options = {
+    userLanguages = {
+      html = "html",
+      css = "css",
+      javascript = "javascript",
+      typescript = "typescript",
+      vue = "vue"
+    }
+  }
 }
 
--- Vue Language Server (Volar)
+-- Vue
 lspconfig.volar.setup({
-  filetypes = { "vue" }, -- Ensure it's targeting .vue files
+  filetypes = { "vue" },
 })
 
--- Optional: Set up Emmet for HTML autocompletion within .vue files
+-- Emmet
 lspconfig.emmet_ls.setup({
-  filetypes = { "html", "css", "vue", "typescriptreact", "javascriptreact"}, -- Enable Emmet for HTML and Vue files
+  filetypes = {
+    "html", "css", "sass", "scss", "less",
+    "vue", "javascriptreact", "typescriptreact"
+  },
+  init_options = {
+    html = { options = { ["bem.enabled"] = true } },
+  },
 })
