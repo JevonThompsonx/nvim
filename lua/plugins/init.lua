@@ -1,4 +1,4 @@
--- All plugins have lazy=true by default,to load a plugin on startup just lazy=false
+-- All plugins have lazy=true by default, to load a plugin on startup set lazy=false
 -- List of all default plugins & their definitions
 local default_plugins = {
 
@@ -15,6 +15,23 @@ local default_plugins = {
     "NvChad/ui",
     branch = "v2.0",
     lazy = false,
+  },
+  {
+    "tpope/vim-fugitive",
+    cmd = { "G", "Git", "Gcommit", "Gpush", "Gpull" },
+    config = function()
+      -- Optional: Keybindings (example)
+      vim.keymap.set("n", "<leader>gs", ":G<CR>", { desc = "Git status" })
+      vim.keymap.set("n", "<leader>gp", ":Gpush<CR>", { desc = "Git push" })
+    end,
+  },
+  -- Add lazygit.nvim
+  {
+    "kdheepak/lazygit.nvim",
+    cmd = "LazyGit",
+    config = function()
+      vim.keymap.set("n", "<leader>gg", ":LazyGit<CR>", { desc = "LazyGit" })
+    end,
   },
 
   {
@@ -156,13 +173,11 @@ local default_plugins = {
       },
 
       -- cmp sources plugins
-      {
-        "saadparwaiz1/cmp_luasnip",
-        "hrsh7th/cmp-nvim-lua",
-        "hrsh7th/cmp-nvim-lsp",
-        "hrsh7th/cmp-buffer",
-        "hrsh7th/cmp-path",
-      },
+      "saadparwaiz1/cmp_luasnip",
+      "hrsh7th/cmp-nvim-lua",
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
     },
     opts = function()
       return require "plugins.configs.cmp"
@@ -175,12 +190,12 @@ local default_plugins = {
   {
     "numToStr/Comment.nvim",
     keys = {
-      { "gcc", mode = "n", desc = "Comment toggle current line" },
-      { "gc", mode = { "n", "o" }, desc = "Comment toggle linewise" },
-      { "gc", mode = "x", desc = "Comment toggle linewise (visual)" },
-      { "gbc", mode = "n", desc = "Comment toggle current block" },
-      { "gb", mode = { "n", "o" }, desc = "Comment toggle blockwise" },
-      { "gb", mode = "x", desc = "Comment toggle blockwise (visual)" },
+      { "gcc", mode = "n",          desc = "Comment toggle current line" },
+      { "gc",  mode = { "n", "o" }, desc = "Comment toggle linewise" },
+      { "gc",  mode = "x",          desc = "Comment toggle linewise (visual)" },
+      { "gbc", mode = "n",          desc = "Comment toggle current block" },
+      { "gb",  mode = { "n", "o" }, desc = "Comment toggle blockwise" },
+      { "gb",  mode = "x",          desc = "Comment toggle blockwise (visual)" },
     },
     init = function()
       require("core.utils").load_mappings "comment"
@@ -190,7 +205,7 @@ local default_plugins = {
     end,
   },
 
-  -- file managing , picker etc
+  -- file managing, picker etc
   {
     "nvim-tree/nvim-tree.lua",
     cmd = { "NvimTreeToggle", "NvimTreeFocus" },
@@ -228,7 +243,7 @@ local default_plugins = {
     end,
   },
 
-  -- Only load whichkey after all the gui
+  -- Only load whichkey after all the GUI
   {
     "folke/which-key.nvim",
     keys = { "<leader>", "<c-r>", "<c-w>", '"', "'", "`", "c", "v", "g" },
@@ -242,6 +257,7 @@ local default_plugins = {
     end,
   },
 }
+
 local config = require("core.utils").load_config()
 
 if #config.plugins > 0 then
@@ -249,3 +265,4 @@ if #config.plugins > 0 then
 end
 
 require("lazy").setup(default_plugins, config.lazy_nvim)
+
