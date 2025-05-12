@@ -40,16 +40,15 @@ local plugins = {
         "mypy",
         "shellcheck",
         "golangci-lint", -- Go linter (ensure it's installable/installed)
-        "selene",       -- Lua linter
-        "yamllint",     -- YAML linter
+        "selene", -- Lua linter
+        "yamllint", -- YAML linter
 
         -- Debug Adapters (for nvim-dap)
         "delve",
-        "vscode-js-debug-adapter", -- Verify exact Mason name for Node.js debugger
         "java-debug-adapter",
         "java-test",
-      }
-    }
+      },
+    },
   },
 
   -- LSP Configuration
@@ -58,8 +57,8 @@ local plugins = {
     dependencies = { "williamboman/mason.nvim" },
     config = function()
       -- require("plugins.configs.lspconfig") -- If you have a base lspconfig
-      require("custom.configs.lspconfig") -- Your custom LSP setups
-    end
+      require "custom.configs.lspconfig" -- Your custom LSP setups
+    end,
   },
 
   -- Autocompletion
@@ -80,21 +79,23 @@ local plugins = {
       local M = require "plugins.configs.cmp" -- Assuming this file exists
       local has_source = function(name)
         for _, source in ipairs(M.sources) do
-          if source.name == name then return true end
+          if source.name == name then
+            return true
+          end
         end
         return false
       end
-      if not has_source("tailwindcss_colorizer_cmp") then
+      if not has_source "tailwindcss_colorizer_cmp" then
         table.insert(M.sources, { name = "tailwindcss_colorizer_cmp" })
       end
-      if not has_source("crates") then
+      if not has_source "crates" then
         table.insert(M.sources, { name = "crates" })
       end
       return M
     end,
     config = function(_, opts)
-        require("cmp").setup(opts)
-    end
+      require("cmp").setup(opts)
+    end,
   },
   { "L3MON4D3/LuaSnip", dependencies = { "rafamadriz/friendly-snippets" } },
   { "rafamadriz/friendly-snippets" },
@@ -105,8 +106,8 @@ local plugins = {
     build = ":TSUpdate",
     config = function()
       -- require("plugins.configs.treesitter") -- If you have a base treesitter config
-      require("custom.configs.treesitter") -- Your custom treesitter config
-    end
+      require "custom.configs.treesitter" -- Your custom treesitter config
+    end,
   },
 
   -- Formatting
@@ -138,8 +139,8 @@ local plugins = {
     },
     config = function(_, opts)
       require("conform").setup(opts)
-      vim.keymap.set({"n", "v"}, "<leader>f", function()
-        require("conform").format({ async = true, lsp_fallback = 'always' })
+      vim.keymap.set({ "n", "v" }, "<leader>f", function()
+        require("conform").format { async = true, lsp_fallback = "always" }
       end, { desc = "Format buffer with conform.nvim" })
     end,
   },
@@ -149,7 +150,7 @@ local plugins = {
     "mfussenegger/nvim-lint",
     event = { "BufWritePost", "BufReadPost", "InsertLeave" },
     config = function()
-      local lint = require("lint")
+      local lint = require "lint"
       lint.linters_by_ft = {
         python = { "flake8", "pylint", "mypy" },
         javascript = { "eslint_d" },
@@ -160,7 +161,7 @@ local plugins = {
         yaml = { "yamllint" },
       }
       local lint_augroup = vim.api.nvim_create_augroup("nvim-lint-autosave", { clear = true })
-      vim.api.nvim_create_autocmd({"BufWritePost", "BufEnter", "InsertLeave"}, {
+      vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter", "InsertLeave" }, {
         group = lint_augroup,
         callback = function(args)
           if not vim.api.nvim_buf_is_valid(args.buf) or vim.bo[args.buf].buftype ~= "" then
@@ -169,7 +170,7 @@ local plugins = {
           require("lint").try_lint()
         end,
       })
-    end
+    end,
   },
 
   -- Rust
@@ -178,15 +179,15 @@ local plugins = {
     ft = "rust",
     init = function()
       vim.g.rustfmt_autosave = 1
-    end
+    end,
   },
   {
     "saecki/crates.nvim",
     ft = { "rust", "toml" },
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
-      require("crates").setup({})
-    end
+      require("crates").setup {}
+    end,
   },
 
   -- DAP (Debugging)
@@ -198,14 +199,19 @@ local plugins = {
       -- "nvim-dap-python", -- Example: If you want python specific dap config
     },
     config = function()
-      local dap = require("dap")
-      local dapui = require("dapui") -- dapui is required by dap_config
+      local dap = require "dap"
+      local dapui = require "dapui" -- dapui is required by dap_config
 
       -- nvim-dap-ui setup (integrated here for simplicity)
-      dapui.setup({
+      dapui.setup {
         layouts = {
           {
-            elements = { { id = "scopes", size = 0.35 }, { id = "breakpoints", size = 0.15 }, { id = "stacks", size = 0.15 }, { id = "watches", size = 0.35 } },
+            elements = {
+              { id = "scopes", size = 0.35 },
+              { id = "breakpoints", size = 0.15 },
+              { id = "stacks", size = 0.15 },
+              { id = "watches", size = 0.35 },
+            },
             size = 40,
             position = "left",
           },
@@ -215,44 +221,79 @@ local plugins = {
             position = "bottom",
           },
         },
-        controls = { enabled = true, icons = { pause = "⏸", play = "▶", step_into = "⏎", step_over = "⏭", step_out = "⏮", disconnect = "⏏", terminate = "⏹" } },
+        controls = {
+          enabled = true,
+          icons = {
+            pause = "⏸",
+            play = "▶",
+            step_into = "⏎",
+            step_over = "⏭",
+            step_out = "⏮",
+            disconnect = "⏏",
+            terminate = "⏹",
+          },
+        },
         floating = { max_height = nil, max_width = nil, border = "rounded" },
-        render = { indent = 1 }
-      })
+        render = { indent = 1 },
+      }
 
-      dap.listeners.after.event_initialized["dapui_config"] = function() dapui.open() end
-      dap.listeners.before.event_terminated["dapui_config"] = function() dapui.close() end
-      dap.listeners.before.event_exited["dapui_config"] = function() dapui.close() end
+      dap.listeners.after.event_initialized["dapui_config"] = function()
+        dapui.open()
+      end
+      dap.listeners.before.event_terminated["dapui_config"] = function()
+        dapui.close()
+      end
+      dap.listeners.before.event_exited["dapui_config"] = function()
+        dapui.close()
+      end
 
       -- DAP Keymaps
-      vim.keymap.set("n", "<F5>", function() dap.continue() end, { desc = "DAP Continue" })
-      vim.keymap.set("n", "<F6>", function() dapui.toggle() end, { desc = "DAP UI Toggle" })
-      vim.keymap.set("n", "<F7>", function() dap.step_over() end, { desc = "DAP Step Over" })
-      vim.keymap.set("n", "<F8>", function() dap.step_into() end, { desc = "DAP Step Into" })
-      vim.keymap.set("n", "<F9>", function() dap.step_out() end, { desc = "DAP Step Out" })
-      vim.keymap.set("n", "<leader>b", function() dap.toggle_breakpoint() end, { desc = "DAP Toggle Breakpoint" })
-      vim.keymap.set("n", "<leader>B", function() dap.set_breakpoint(vim.fn.input("Breakpoint condition: ")) end, { desc = "DAP Set Conditional Breakpoint" })
-      vim.keymap.set("n", "<leader>lp", function() dap.set_breakpoint(nil, nil, vim.fn.input("Log point message: ")) end, { desc = "DAP Set Log Point" })
-      vim.keymap.set("n", "<leader>dr", function() dap.repl.open() end, { desc = "DAP REPL Open" })
+      vim.keymap.set("n", "<F5>", function()
+        dap.continue()
+      end, { desc = "DAP Continue" })
+      vim.keymap.set("n", "<F6>", function()
+        dapui.toggle()
+      end, { desc = "DAP UI Toggle" })
+      vim.keymap.set("n", "<F7>", function()
+        dap.step_over()
+      end, { desc = "DAP Step Over" })
+      vim.keymap.set("n", "<F8>", function()
+        dap.step_into()
+      end, { desc = "DAP Step Into" })
+      vim.keymap.set("n", "<F9>", function()
+        dap.step_out()
+      end, { desc = "DAP Step Out" })
+      vim.keymap.set("n", "<leader>b", function()
+        dap.toggle_breakpoint()
+      end, { desc = "DAP Toggle Breakpoint" })
+      vim.keymap.set("n", "<leader>B", function()
+        dap.set_breakpoint(vim.fn.input "Breakpoint condition: ")
+      end, { desc = "DAP Set Conditional Breakpoint" })
+      vim.keymap.set("n", "<leader>lp", function()
+        dap.set_breakpoint(nil, nil, vim.fn.input "Log point message: ")
+      end, { desc = "DAP Set Log Point" })
+      vim.keymap.set("n", "<leader>dr", function()
+        dap.repl.open()
+      end, { desc = "DAP REPL Open" })
 
       -- Setup language-specific DAP configurations
       require("dap-go").setup() -- nvim-dap-go
       -- For Java, nvim-jdtls typically handles DAP registration.
       -- Ensure its ftplugin/java.lua calls require("jdtls").setup_dap_main_class_configs() or similar.
-    end
+    end,
   },
   -- nvim-dap-ui is now configured as part of nvim-dap's config for simplicity,
   -- but keeping its entry ensures it's loaded as a dependency.
-  { "rcarriga/nvim-dap-ui", dependencies = {"mfussenegger/nvim-dap"} },
+  { "rcarriga/nvim-dap-ui", dependencies = { "mfussenegger/nvim-dap" } },
   {
     "leoluz/nvim-dap-go",
     ft = "go", -- Ensure this is loaded for Go files
-    dependencies = {"mfussenegger/nvim-dap"},
+    dependencies = { "mfussenegger/nvim-dap" },
     config = function()
       -- The main setup is called from the nvim-dap config block above.
       -- Specific ft-plugin like behavior for Go can be added here if necessary,
       -- but dap-go.setup() is generally sufficient.
-    end
+    end,
   },
 
   -- Java (nvim-jdtls)
@@ -269,7 +310,7 @@ local plugins = {
       -- The detailed setup for nvim-jdtls (cmd, root_dir, bundles, on_attach with jdtls specific keymaps)
       -- MUST go into ~/.config/nvim/ftplugin/java.lua
       -- Example: require('custom.configs.jdtls_ftplugin_setup').setup() if you abstract it.
-    end
+    end,
   },
 
   "roobert/tailwindcss-colorizer-cmp.nvim",
