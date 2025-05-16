@@ -60,7 +60,7 @@ local plugins = {
       require "custom.configs.lspconfig" -- Your custom LSP setups
     end,
   },
-
+  { "nvim-neotest/nvim-nio" },
   -- Autocompletion
   {
     "hrsh7th/nvim-cmp",
