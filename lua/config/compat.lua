@@ -11,6 +11,19 @@ if not vim.env.PATH:find(vim.pesc(juliaup_bin), 1, true) then
   vim.env.PATH = juliaup_bin .. ":" .. vim.env.PATH
 end
 
+-- Compatibility shim: Neovim 0.10+ removed the legacy positional form of
+-- vim.validate in favour of the table form. Many plugins still call the old
+-- form, so bridge it back to the new one.
+local _validate = vim.validate
+vim.validate = function(...)
+  local first = select(1, ...)
+  if type(first) == "string" then
+    local name, value, validator, optional, message = ...
+    return _validate({ [name] = { value, validator, optional, message } })
+  end
+  return _validate(...)
+end
+
 -- Bridge older LazyVim treesitter requires to the newer textobjects module path.
 local textobjects_modules = {
   move = true,
