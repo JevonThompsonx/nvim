@@ -1,42 +1,31 @@
+-- Compatibility shims that must run before lazy.nvim/plugin setup.
+
+-- Providers we don't use. Disabling them saves a bit of startup time.
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
 
-local local_bin = vim.fn.expand("~/.local/bin")
-if not vim.env.PATH:find(vim.pesc(local_bin), 1, true) then
-  vim.env.PATH = local_bin .. ":" .. vim.env.PATH
-end
-
-local juliaup_bin = vim.fn.expand("~/.juliaup/bin")
-if not vim.env.PATH:find(vim.pesc(juliaup_bin), 1, true) then
-  vim.env.PATH = juliaup_bin .. ":" .. vim.env.PATH
-end
-
--- Compatibility shim: Neovim 0.10+ removed the legacy positional form of
--- vim.validate in favour of the table form. Many plugins still call the old
--- form, so bridge it back to the new one.
-local _validate = vim.validate
-vim.validate = function(...)
-  local first = select(1, ...)
-  if type(first) == "string" then
-    local name, value, validator, optional, message = ...
-    return _validate({ [name] = { value, validator, optional, message } })
+---Prepend a directory to $PATH if it isn't there already.
+---@param dir string
+local function prepend_path(dir)
+  dir = vim.fn.expand(dir)
+  if dir == "" then
+    return
   end
-  return _validate(...)
-end
-
--- Bridge older LazyVim treesitter requires to the newer textobjects module path.
-local textobjects_modules = {
-  move = true,
-  select = true,
-  swap = true,
-  repeatable_move = true,
-  shared = true,
-  config = true,
-  ["_range"] = true,
-}
-
-for module in pairs(textobjects_modules) do
-  package.preload["nvim-treesitter.textobjects." .. module] = function()
-    return require("nvim-treesitter-textobjects." .. module)
+  local path = vim.env.PATH or ""
+  for entry in path:gmatch("[^:]+") do
+    if entry == dir then
+      return
+    end
   end
+  vim.env.PATH = dir .. ":" .. path
 end
+
+prepend_path("~/.local/bin")
+prepend_path("~/.local/share/nvim/mason/bin")
+prepend_path("~/.juliaup/bin")
+
+-- NOTE: do NOT shim `vim.validate` here.
+-- Neovim 0.11 keeps the positional form `vim.validate(name, value, validator, optional, message)`
+-- as the canonical API and only deprecates the table form (`vim.validate({ name = { ... } })`).
+-- Wrapping it the other way around converts every valid call into a deprecated one, which
+-- spams `:checkhealth vim.deprecated` and needlessly captures a traceback on every call.
